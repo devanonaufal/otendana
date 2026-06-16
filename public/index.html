@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DANA OTP - Receive SMS Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0f172a; }
+        
+        /* Price Card */
+        .price-card {
+            background: #1e293b;
+            border-radius: 1rem;
+            border: 1px solid #334155;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .price-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 20px -8px rgba(59,130,246,0.2);
+            transform: translateY(-2px);
+        }
+        .price-card.selected {
+            border-color: #3b82f6;
+            background: #1e3a8a;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.15);
+        }
+        
+        /* Copy Card - Nomor warna putih */
+        .copy-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 0.75rem;
+            border: 1px solid #334155;
+            transition: all 0.2s;
+        }
+        .copy-card:hover {
+            background: linear-gradient(135deg, #1e3a8a, #1e293b);
+            border-color: #60a5fa;
+        }
+        .copy-card .text-gray-500,
+        .copy-card .text-gray-300 {
+            color: #94a3b8 !important;
+        }
+        .copy-card .text-blue-500,
+        .copy-card .text-blue-400 {
+            color: #60a5fa !important;
+        }
+        .copy-card .font-mono {
+            color: #ffffff !important;
+            font-weight: bold;
+        }
+        
+        /* Operator Text */
+        .order-item .font-medium {
+            color: #ffffff !important;
+        }
+        .order-item .text-gray-500 {
+            color: #94a3b8;
+        }
+        
+        /* Rank Badges */
+        .rank-gold { background: #451a03; color: #fbbf24; }
+        .rank-silver { background: #334155; color: #cbd5e1; }
+        .rank-bronze { background: #431407; color: #fdba74; }
+        
+        /* Filter Chips */
+        .filter-chip {
+            padding: 0.375rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid transparent;
+        }
+        .filter-chip.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        /* Order Item */
+        .order-item {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid #334155;
+        }
+        
+        /* Waiting Badge */
+        .waiting-badge {
+            background: #451a03;
+            color: #fbbf24;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        
+        /* OTP Code */
+        .otp-code {
+            font-family: monospace;
+            font-size: 1.25rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            display: inline-block;
+        }
+        
+        /* Header */
+        header {
+            background: #0f172a/90 !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #1e293b !important;
+        }
+        
+        /* Text Colors */
+        .text-slate-800 { color: #f1f5f9 !important; }
+        .text-slate-700 { color: #e2e8f0 !important; }
+        .text-slate-600 { color: #94a3b8 !important; }
+        .text-slate-500 { color: #64748b !important; }
+        .text-gray-500 { color: #94a3b8 !important; }
+        .text-gray-400 { color: #64748b !important; }
+        .text-gray-300 { color: #94a3b8 !important; }
+        .text-gray-200 { color: #cbd5e1 !important; }
+        .text-gray-100 { color: #f1f5f9 !important; }
+        .text-white { color: #ffffff !important; }
+        
+        /* Backgrounds */
+        .bg-white { background: #1e293b !important; }
+        .bg-gray-100 { background: #0f172a !important; }
+        .bg-gray-50 { background: #0f172a !important; }
+        .bg-gray-200 { background: #1e293b !important; }
+        .bg-slate-100 { background: #1e293b !important; }
+        .bg-slate-200 { background: #334155 !important; }
+        
+        /* Borders */
+        .border-gray-200 { border-color: #1e293b !important; }
+        .border-gray-100 { border-color: #1e293b !important; }
+        .border-slate-200 { border-color: #334155 !important; }
+        .border-slate-300 { border-color: #334155 !important; }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            font-weight: 600;
+            border-radius: 2rem;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(37,99,235,0.4);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Glass Card */
+        .glass-card {
+            background: #1e293b;
+            border-radius: 1.5rem;
+            border: 1px solid #334155;
+            box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        
+        /* Form Input */
+        .form-input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 1.2rem;
+            border: 1px solid #334155;
+            background: #0f172a;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+            color: #f1f5f9;
+        }
+        .form-input::placeholder {
+            color: #64748b;
+        }
+        .form-input:focus {
+            border-color: #3b82f6;
+        }
+        
+        /* Hero badge */
+        .bg-blue-50 { background: #1e3a8a !important; }
+        .text-blue-700 { color: #93c5fd !important; }
+        .text-blue-600 { color: #60a5fa !important; }
+        .text-blue-500 { color: #3b82f6 !important; }
+        .text-blue-400 { color: #60a5fa !important; }
+        .bg-blue-100 { background: #1e3a8a !important; }
+        .bg-blue-500 { background: #3b82f6 !important; }
+        .bg-blue-600 { background: #2563eb !important; }
+        .bg-blue-700 { background: #1d4ed8 !important; }
+        
+        .bg-green-50 { background: #064e3b !important; }
+        .text-green-600 { color: #34d399 !important; }
+        .text-green-700 { color: #6ee7b7 !important; }
+        .text-green-400 { color: #34d399 !important; }
+        .bg-green-100 { background: #064e3b !important; }
+        
+        .bg-red-50 { background: #7f1d1d !important; }
+        .text-red-600 { color: #f87171 !important; }
+        .text-red-700 { color: #fca5a5 !important; }
+        .text-red-400 { color: #f87171 !important; }
+        .bg-red-100 { background: #7f1d1d !important; }
+        
+        .bg-yellow-50 { background: #78350f !important; }
+        .text-yellow-600 { color: #fbbf24 !important; }
+        .text-yellow-700 { color: #fcd34d !important; }
+        .text-yellow-400 { color: #fbbf24 !important; }
+        .bg-yellow-100 { background: #78350f !important; }
+        
+        .bg-purple-50 { background: #4c1d95 !important; }
+        .text-purple-600 { color: #a78bfa !important; }
+        .text-purple-400 { color: #a78bfa !important; }
+        .bg-purple-500 { background: #7c3aed !important; }
+        .bg-purple-600 { background: #6d28d9 !important; }
+        
+        .bg-amber-100 { background: #78350f !important; }
+        .text-amber-600 { color: #fbbf24 !important; }
+        .text-amber-700 { color: #fcd34d !important; }
+        .text-amber-400 { color: #fbbf24 !important; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-slate-900 transition-colors duration-300">
+
+    <div id="toastMsg" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden transition-all pointer-events-none"></div>
+
+    <!-- Audio notifikasi SMS -->
+    <audio id="notifSmsAudio" preload="auto" style="display: none;">
+        <source src="https://media.smsvirtual.co/smsvirtual/sounds/notif.wav" type="audio/wav">
+    </audio>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-slate-800 z-30">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between max-w-6xl">
+            <div class="flex items-center gap-2">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center">
+                    <img src="/dana.png" alt="DANA Logo" class="w-full h-full object-contain">
+                </div>
+                <span class="font-bold text-xl text-slate-800 dark:text-white">DANA<span class="text-blue-600">OTP</span></span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="/history.html" class="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 transition">
+                    <i class="fas fa-history mr-1"></i> History
+                </a>
+                <span id="balanceDisplay" class="text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-4 py-1.5 rounded-full">
+                    <i class="fas fa-coins mr-1"></i> $0.00
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20 pb-10 max-w-6xl mx-auto px-4">
+        <!-- Hero Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/40 rounded-full px-4 py-1.5 text-sm text-blue-700 dark:text-blue-300 mb-4">
+                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                Real-time prices & stock
+            </div>
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
+                Receive SMS Online for <span class="text-blue-600">DANA</span>
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">Get virtual numbers for DANA verification instantly</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- LEFT PANEL: Price Options -->
+            <div class="lg:col-span-2">
+                <div class="bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
+                    <div class="p-5 border-b border-gray-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+                            <h2 class="text-lg font-bold text-slate-800 dark:text-white">Select Price & Operator</h2>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-sm text-slate-500 dark:text-slate-400">
+                                <i class="fas fa-map-marker-alt mr-1"></i> Indonesia
+                            </span>
+                            <span class="text-xs bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full">
+                                <i class="fas fa-chart-line mr-1"></i> Real-time stock
+                            </span>
+                        </div>
+                        
+                        <div class="flex gap-2 mb-4 flex-wrap">
+                            <button class="filter-chip active" data-rank="all">All</button>
+                            <button class="filter-chip" data-rank="Gold">Gold</button>
+                            <button class="filter-chip" data-rank="Silver">Silver</button>
+                            <button class="filter-chip" data-rank="Bronze">Bronze</button>
+                        </div>
+                    </div>
+                    
+                    <div id="priceListContainer" class="p-5 space-y-3 max-h-[500px] overflow-y-auto custom-scroll">
+                        <div class="text-center py-8 text-slate-400">
+                            <i class="fas fa-spinner fa-pulse mr-2"></i> Loading prices...
+                        </div>
+                    </div>
+                    
+                    <div id="priceSummary" class="px-5 py-3 bg-gray-50 dark:bg-slate-900/50 border-t border-gray-200 dark:border-slate-700 text-xs text-gray-500 dark:text-gray-400 flex flex-wrap gap-3">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RIGHT PANEL: Active Orders -->
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700">
+                    <div class="p-5 border-b border-gray-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2">
+                            <div class="w-1 h-6 bg-green-500 rounded-full"></div>
+                            <h2 class="text-lg font-bold text-slate-800 dark:text-white">Active Orders</h2>
+                            <span class="text-xs text-gray-400 ml-auto"><i class="fas fa-sync-alt fa-fw"></i> Auto 5s</span>
+                        </div>
+                    </div>
+                    <div id="activeOrdersList" class="p-5 space-y-3 max-h-[450px] overflow-y-auto custom-scroll">
+                        <div class="text-center py-8 text-slate-400 text-sm">
+                            <i class="fas fa-inbox text-3xl mb-2 opacity-50"></i>
+                            <p>No active orders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- How to Use -->
+        <div class="mt-6 bg-white dark:bg-slate-800/80 rounded-2xl p-5 shadow-sm border border-gray-200 dark:border-slate-700">
+            <h3 class="font-bold text-sm flex items-center gap-2 mb-3 text-slate-800 dark:text-white">
+                <i class="fas fa-lightbulb text-yellow-500"></i> How to use
+            </h3>
+            <div class="grid grid-cols-3 gap-3 text-xs">
+                <div class="text-center text-slate-700 dark:text-white">
+                    <span class="bg-blue-100 dark:bg-blue-900/40 w-6 h-6 rounded-full inline-flex items-center justify-center font-bold text-blue-600 mr-1">1</span> 
+                    Select price & operator
+                </div>
+                <div class="text-center text-slate-700 dark:text-white">
+                    <span class="bg-blue-100 dark:bg-blue-900/40 w-6 h-6 rounded-full inline-flex items-center justify-center font-bold text-blue-600 mr-1">2</span> 
+                    Click Buy Now
+                </div>
+                <div class="text-center text-slate-700 dark:text-white">
+                    <span class="bg-blue-100 dark:bg-blue-900/40 w-6 h-6 rounded-full inline-flex items-center justify-center font-bold text-blue-600 mr-1">3</span> 
+                    Receive OTP automatically
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
