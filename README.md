@@ -43,7 +43,7 @@
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v8 or higher)
-- SMSBower API key ([Get one here](https://smsbower.page))
+- SMSBower API key
 
 ### Steps
 
