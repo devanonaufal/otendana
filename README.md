@@ -1,31 +1,40 @@
-
-
 ```markdown
 # 📱 OtenDANA - DANA OTP Dashboard
 
-Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower API.
+> Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower API.
 
 ---
 
 ## ✨ Features
 
-- 🔢 **Virtual Numbers** - Get temporary virtual numbers for DANA verification
-- 💰 **Real-time Pricing** - View live prices and stock for each operator
-- 🔔 **Instant OTP Detection** - Auto-polling every 5 seconds to catch SMS codes
-- 📋 **Two Copy Formats** - Copy number with or without country code
-- ⏱️ **25-Minute Timer** - Countdown timer for each active order
-- 📜 **Order History** - View all past activations with status
-- 🔄 **Retry & Cancel** - Request another SMS or cancel order
-- 🌙 **Dark Mode** - Permanent dark theme for comfortable use
-- 🔊 **Sound Notifications** - Audio alerts when OTP is received
-- 📱 **Responsive** - Works on desktop, tablet, and mobile
+| Feature | Description |
+|---------|-------------|
+| 🔢 Virtual Numbers | Get temporary virtual numbers for DANA verification |
+| 💰 Real-time Pricing | View live prices and stock for each operator |
+| 🔔 Instant OTP Detection | Auto-polling every 5 seconds to catch SMS codes |
+| 📋 Two Copy Formats | Copy number with or without country code |
+| ⏱️ 25-Minute Timer | Countdown timer for each active order |
+| 📜 Order History | View all past activations with status |
+| 🔄 Retry & Cancel | Request another SMS or cancel order |
+| 🌙 Dark Mode | Permanent dark theme for comfortable use |
+| 🔊 Sound Notifications | Audio alerts when OTP is received |
+| 📱 Responsive | Works on desktop, tablet, and mobile |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Node.js, Express, Axios, dotenv
-- **Frontend:** Tailwind CSS, Font Awesome, Vanilla JavaScript, LocalStorage
+### Backend
+- Node.js
+- Express
+- Axios
+- dotenv
+
+### Frontend
+- Tailwind CSS
+- Font Awesome
+- Vanilla JavaScript
+- LocalStorage
 
 ---
 
@@ -34,7 +43,7 @@ Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v8 or higher)
-- SMSBower API key
+- SMSBower API key ([Get one here](https://smsbower.page))
 
 ### Steps
 
@@ -85,12 +94,14 @@ Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower
 
 ## 🚀 Usage
 
-1. **Select a Service** - Choose DANA from the service list
-2. **Select an Operator** - Pick a price operator with available stock
-3. **Click "Buy Now"** - Get a virtual number instantly
-4. **Copy the Number** - Use the number for DANA registration
-5. **Wait for OTP** - Auto-detected and displayed in the dashboard
-6. **Complete or Cancel** - Finish the order or cancel if needed
+| Step | Action |
+|------|--------|
+| 1 | Select DANA from the service list |
+| 2 | Pick a price operator with available stock |
+| 3 | Click "Buy Now" to get a virtual number |
+| 4 | Copy the number for DANA registration |
+| 5 | Wait for OTP (auto-detected) |
+| 6 | Complete or cancel the order |
 
 ### Available Actions
 
@@ -113,7 +124,7 @@ Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower
 | `/api/dana-operators` | GET | Get operator list with prices |
 | `/api/get-dana-number` | GET | Get a virtual number |
 | `/api/status/:id` | GET | Check OTP status |
-| `/api/set-status/:id/:status` | GET | Update order status (cancel/complete) |
+| `/api/set-status/:id/:status` | GET | Update order status |
 | `/api/history` | GET | Get order history |
 
 ---
@@ -127,11 +138,11 @@ otendana/
 ├── .env.example           # Example environment config
 ├── package.json           # Dependencies
 ├── README.md              # Documentation
-├── public/                # Static files
-│   ├── index.html         # Main dashboard
-│   ├── history.html       # History page
-│   ├── app.js             # Frontend logic
-│   └── dana.png           # DANA logo
+└── public/                # Static files
+    ├── index.html         # Main dashboard
+    ├── history.html       # History page
+    ├── app.js             # Frontend logic
+    └── dana.png           # DANA logo
 ```
 
 ---
@@ -182,7 +193,7 @@ Give a ⭐️ if this project helped you!
 
 ---
 
-## 📁 `.env.example` (Siap Copas)
+## 📁 `.env.example`
 
 ```env
 # SMSBower API Key (required)
@@ -191,5 +202,3 @@ SMSBOWER_API_KEY=your_api_key_here
 # Server Port (optional, default: 3000)
 PORT=3000
 ```
-
----
