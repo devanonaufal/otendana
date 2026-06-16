@@ -1,9 +1,8 @@
-```markdown
 # 📱 OtenDANA - DANA OTP Dashboard
 
 > Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower API.
 
-```
+---
 
 ## ✨ Features
 
@@ -20,8 +19,8 @@
 | 🔊 Sound Notifications | Audio alerts when OTP is received |
 | 📱 Responsive | Works on desktop, tablet, and mobile |
 
-```
-```
+---
+
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -39,19 +38,18 @@
 ---
 
 ## 📦 Installation
-```
-```
+
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v8 or higher)
-- SMSBower API key
+- SMSBower API key ([Get one here](https://smsbower.app))
 
-```
 ### Steps
-```
+
 1. **Clone the repository**
    ```bash
    git clone https://github.com/devanonaufal/otendana.git
+   cd otendana
    ```
 
 2. **Install dependencies**
@@ -88,7 +86,7 @@
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `SMSBOWER_API_KEY` | ✅ Yes | Your API key from SMSBower |
+| `SMSBOWER_API_KEY` | ✅ Yes | Your API key from SMSBower ([Get one here](https://smsbower.app)) |
 | `PORT` | ❌ No | Server port (default: 3000) |
 
 ---
@@ -166,7 +164,7 @@ This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- [SMSBower](https://smsbower.app/) - SMS activation API
+- [SMSBower](https://smsbower.app) - SMS activation API
 - [Tailwind CSS](https://tailwindcss.com/) - UI framework
 - [Font Awesome](https://fontawesome.com/) - Icons
 
@@ -191,3 +189,5 @@ This tool is for educational and legitimate verification purposes only. Users ar
 
 Give a ⭐️ if this project helped you!
 ```
+
+**Selesai! Langsung copas ke README.md.** 🚀
