@@ -49,7 +49,6 @@
 1. **Clone the repository**
    ```bash
    git clone https://github.com/devanonaufal/otendana.git
-   cd otendana
    ```
 
 2. **Install dependencies**
