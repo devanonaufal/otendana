@@ -188,5 +188,3 @@ This tool is for educational and legitimate verification purposes only. Users ar
 
 Give a ⭐️ if this project helped you!
 ```
-
-**Selesai! Langsung copas ke README.md.** 🚀
