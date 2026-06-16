@@ -3,7 +3,7 @@
 
 > Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower API.
 
----
+```
 
 ## ✨ Features
 
@@ -20,8 +20,8 @@
 | 🔊 Sound Notifications | Audio alerts when OTP is received |
 | 📱 Responsive | Works on desktop, tablet, and mobile |
 
----
-
+```
+```
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -39,12 +39,14 @@
 ---
 
 ## 📦 Installation
-
+```
+```
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v8 or higher)
 - SMSBower API key
 
+```
 ### Steps
 ```
 1. **Clone the repository**
@@ -188,16 +190,4 @@ This tool is for educational and legitimate verification purposes only. Users ar
 ## ⭐ Show Your Support
 
 Give a ⭐️ if this project helped you!
-```
-
----
-
-## 📁 `.env.example`
-
-```env
-# SMSBower API Key (required)
-SMSBOWER_API_KEY=your_api_key_here
-
-# Server Port (optional, default: 3000)
-PORT=3000
 ```
