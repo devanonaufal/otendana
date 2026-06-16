@@ -1,4 +1,4 @@
-# 📱 OtenDANA - DANA OTP Dashboard
+#  OtenDANA - DANA OTP Dashboard
 
 > Receive SMS and OTP codes for DANA instantly using virtual numbers from SMSBower API.
 
