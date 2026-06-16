@@ -165,7 +165,7 @@ This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
-- [SMSBower](https://smsbower.page) - SMS activation API
+- [SMSBower](https://smsbower.app/) - SMS activation API
 - [Tailwind CSS](https://tailwindcss.com/) - UI framework
 - [Font Awesome](https://fontawesome.com/) - Icons
 
