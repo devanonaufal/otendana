@@ -82,11 +82,11 @@ function loadOrdersFromLocalStorage() {
 }
 
 // ========================
-// HISTORY - SAVE TO LOCALSTORAGE
+// HISTORY - SAVE TO LOCALSTORAGE (Success 100, Cancelled 100 - Masing-masing)
 // ========================
 function saveToHistory(order, status) {
     try {
-        const history = JSON.parse(localStorage.getItem('dana_history') || '[]');
+        let history = JSON.parse(localStorage.getItem('dana_history') || '[]');
         
         const exists = history.some(h => h.id === order.activationId);
         
@@ -110,11 +110,29 @@ function saveToHistory(order, status) {
                 }),
                 timestamp: Date.now()
             });
-            
-            const limited = history.slice(0, 100);
-            localStorage.setItem('dana_history', JSON.stringify(limited));
-            console.log('Saved to history:', order.activationId, status, formattedPrice);
         }
+        
+        // Pisahkan berdasarkan status
+        let successHistory = history.filter(h => h.status === 'Success');
+        let cancelledHistory = history.filter(h => h.status === 'Cancelled');
+        
+        // Masing-masing limit 100
+        if (successHistory.length > 100) {
+            successHistory = successHistory.slice(0, 100);
+        }
+        if (cancelledHistory.length > 100) {
+            cancelledHistory = cancelledHistory.slice(0, 100);
+        }
+        
+        // Gabungkan kembali
+        history = [...successHistory, ...cancelledHistory];
+        
+        // Urutkan berdasarkan timestamp terbaru
+        history.sort((a, b) => b.timestamp - a.timestamp);
+        
+        localStorage.setItem('dana_history', JSON.stringify(history));
+        console.log(`📜 History: ${history.length} total (Success: ${successHistory.length}, Cancelled: ${cancelledHistory.length})`);
+        
     } catch(e) { console.error('Save history error:', e); }
 }
 
@@ -762,7 +780,7 @@ function setDarkMode() {
 // INIT
 // ========================
 document.addEventListener('DOMContentLoaded', () => {
-    setDarkMode(); // Dark mode permanen
+    setDarkMode();
     checkBalance();
     loadDanaPrices();
     setupFilters();
