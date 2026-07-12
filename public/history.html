@@ -5,234 +5,357 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>DANA OTP - History</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { background: #f5f7fb; }
-        .dark body { background: #0f172a; }
+        * { 
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
+        body {
+            background: #0a0e27;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -10%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            top: 40%;
+            right: -5%;
+            animation-delay: 5s;
+        }
+        
+        .orb-3 {
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            bottom: -10%;
+            left: 30%;
+            animation-delay: 10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.3s ease;
+        }
+        
+        /* Header */
+        .header-glass {
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Status Badges */
         .status-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .dark .status-success {
-            background: #065f46;
-            color: #d1fae5;
-        }
-        .status-cancelled {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .dark .status-cancelled {
-            background: #7f1d1d;
-            color: #fecaca;
-        }
-        .status-waiting {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .dark .status-waiting {
-            background: #78350f;
-            color: #fde68a;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
+        .status-cancelled {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .status-waiting {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        /* Table Styles */
         .history-table {
             width: 100%;
             border-collapse: collapse;
         }
+        
         .history-table th,
         .history-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .dark .history-table th,
-        .dark .history-table td {
-            border-bottom-color: #334155;
-        }
-        .history-table th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: #1e293b;
-        }
-        .dark .history-table th {
-            background: #1e293b;
-            color: #f1f5f9;
-        }
-        .history-table tr:hover {
-            background: #f1f5f9;
-        }
-        .dark .history-table tr:hover {
-            background: #334155;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
+        .history-table th {
+            background: rgba(15, 23, 42, 0.5);
+            font-weight: 600;
+            color: #f1f5f9;
+            font-size: 0.875rem;
+        }
+        
+        .history-table td {
+            color: #cbd5e1;
+        }
+        
+        .history-table tr {
+            transition: all 0.2s ease;
+        }
+        
+        .history-table tr:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Source Badge */
         .source-badge {
             display: inline-block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 6px;
         }
-        .source-api { background-color: #3b82f6; }
-        .source-local { background-color: #10b981; }
-        
-        /* Warna PUTIH UNTUK SEMUA TEKS DI MODE GELAP */
-        .dark body,
-        .dark .history-table th,
-        .dark .history-table td,
-        .dark .text-slate-500,
-        .dark .text-slate-600,
-        .dark .text-slate-700,
-        .dark .text-gray-500,
-        .dark .text-gray-600,
-        .dark .font-mono,
-        .dark .text-sm,
-        .dark #totalRecords,
-        .dark #pageInfo,
-        .dark .px-3.py-1,
-        .dark option,
-        .dark input,
-        .dark input::placeholder {
-            color: #ffffff !important;
+        .source-api { 
+            background-color: #3b82f6;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+        }
+        .source-local { 
+            background-color: #10b981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
         }
         
-        .dark input,
-        .dark select {
-            background-color: #1e293b !important;
-            border-color: #475569 !important;
+        /* Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7);
         }
         
-        .dark input::placeholder {
-            color: #94a3b8 !important;
+        /* Input & Select */
+        input, select {
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #f1f5f9 !important;
+            transition: all 0.3s ease;
         }
         
-        .dark a.text-slate-600 {
-            color: #cbd5e1 !important;
-        }
-        .dark a.text-slate-600:hover {
-            color: #60a5fa !important;
+        input:focus, select:focus {
+            background: rgba(15, 23, 42, 0.8) !important;
+            border-color: rgba(99, 102, 241, 0.5) !important;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
         }
         
-        .dark #prevPage,
-        .dark #nextPage {
-            color: #e2e8f0 !important;
-            background-color: #334155 !important;
-        }
-        .dark #prevPage:disabled,
-        .dark #nextPage:disabled {
+        input::placeholder {
             color: #64748b !important;
-            background-color: #1e293b !important;
         }
         
-        .dark #refreshBtn {
-            color: white !important;
+        /* Buttons */
+        button {
+            transition: all 0.3s ease;
         }
         
-        .dark td.font-semibold.text-green-600 {
-            color: #4ade80 !important;
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        
+        #refreshBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        #refreshBtn:hover {
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        #prevPage, #nextPage {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #prevPage:hover:not(:disabled), #nextPage:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        #prevPage:disabled, #nextPage:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        /* Text Colors */
+        .text-white { color: #ffffff !important; }
+        .text-slate-800, .text-slate-700 { color: #f1f5f9 !important; }
+        .text-slate-600, .text-slate-500 { color: #94a3b8 !important; }
+        .text-slate-400 { color: #64748b !important; }
+        .text-slate-300 { color: #cbd5e1 !important; }
+        .text-gray-500, .text-gray-400 { color: #94a3b8 !important; }
+        .text-green-600, .text-green-500 { color: #34d399 !important; }
+        .text-blue-600 { color: #60a5fa !important; }
+        
+        /* Pulse Animation */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.8); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
         }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-slate-900 transition-colors duration-300">
 
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
     <div id="toastMsg" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 hidden transition-all pointer-events-none"></div>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-slate-800 z-30">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between max-w-7xl">
-            <div class="flex items-center gap-2">
-                <div class="w-9 h-9 rounded-xl flex items-center justify-center">
-                    <img src="/dana.png" alt="DANA Logo" class="w-full h-full object-contain">
+    <div class="content-wrapper">
+        <!-- Header -->
+        <header class="header-glass fixed top-0 left-0 w-full z-30">
+            <div class="container mx-auto px-4 py-4 flex items-center justify-between max-w-7xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center">
+                        <img src="/dana.png" alt="DANA Logo" class="w-full h-full object-contain">
+                    </div>
+                    <span class="font-bold text-2xl text-white">DANA<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">OTP</span></span>
                 </div>
-                <span class="font-bold text-xl text-slate-800 dark:text-white">DANA<span class="text-blue-600">OTP</span></span>
+                <div class="flex items-center gap-4">
+                    <a href="/" class="text-sm text-slate-300 hover:text-blue-400 transition">
+                        <i class="fas fa-home mr-1"></i> Dashboard
+                    </a>
+                    <a href="/history.html" class="text-sm text-blue-400 font-semibold">
+                        <i class="fas fa-history mr-1"></i> History
+                    </a>
+                    <span id="balanceDisplay" class="text-sm font-semibold text-green-400 bg-gradient-to-r from-green-500/20 to-emerald-500/20 px-4 py-2 rounded-full border border-green-500/30">
+                        <i class="fas fa-coins mr-1"></i> $0.00
+                    </span>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="/" class="text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 transition">
-                    <i class="fas fa-home mr-1"></i> Dashboard
-                </a>
-                <a href="/history.html" class="text-sm text-blue-600 font-semibold">
-                    <i class="fas fa-history mr-1"></i> History
-                </a>
-                <button id="themeToggle" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center">
-                    <i class="fas fa-moon dark:hidden text-slate-600"></i>
-                    <i class="fas fa-sun hidden dark:inline-block text-yellow-400"></i>
-                </button>
-                <span id="balanceDisplay" class="text-sm font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-4 py-1.5 rounded-full">
-                    <i class="fas fa-coins mr-1"></i> $0.00
-                </span>
+        </header>
+
+        <main class="pt-28 pb-10 max-w-7xl mx-auto px-4">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+                    Order <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">History</span>
+                </h1>
+                <p class="text-slate-400 text-base">View all your past DANA SMS activations</p>
             </div>
-        </div>
-    </header>
 
-    <main class="pt-24 pb-10 max-w-7xl mx-auto px-4">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
-                Order <span class="text-blue-600">History</span>
-            </h1>
-            <p class="text-slate-500 dark:text-slate-400 text-sm mt-2">View all your past DANA SMS activations</p>
-        </div>
+            <div class="glass-card p-6 mb-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="searchInput" placeholder="Search by Phone or ID..." 
+                                   class="w-full pl-10 pr-4 py-2.5 rounded-xl focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <select id="statusFilter" class="px-4 py-2.5 rounded-xl focus:outline-none">
+                            <option value="all">All Status</option>
+                            <option value="Success">Success</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Waiting">Waiting</option>
+                        </select>
+                    </div>
+                    <button id="refreshBtn" class="px-5 py-2.5 rounded-xl text-white font-medium">
+                        <i class="fas fa-sync-alt mr-2"></i> Refresh
+                    </button>
+                </div>
+            </div>
 
-        <div class="bg-white dark:bg-slate-800/80 rounded-2xl p-5 shadow-sm border border-gray-200 dark:border-slate-700 mb-6">
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex-1">
-                    <div class="relative">
-                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
-                        <input type="text" id="searchInput" placeholder="Search by Phone or ID..." 
-                               class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-blue-500">
+            <div class="glass-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag mr-2"></i> ID</th>
+                                <th><i class="fas fa-phone mr-2"></i> Phone</th>
+                                <th><i class="fas fa-envelope mr-2"></i> SMS</th>
+                                <th><i class="fas fa-tag mr-2"></i> Status</th>
+                                <th><i class="fas fa-dollar-sign mr-2"></i> Price</th>
+                                <th><i class="fas fa-calendar mr-2"></i> Date & Time</th>
+                                <th><i class="fas fa-database mr-2"></i> Source</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-slate-400">
+                                    <i class="fas fa-spinner fa-pulse mr-2"></i> Loading history...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="pagination" class="px-6 py-4 border-t border-white/10 flex justify-between items-center">
+                    <span id="totalRecords" class="text-sm text-slate-400"></span>
+                    <div class="flex gap-2">
+                        <button id="prevPage" class="px-4 py-2 rounded-lg text-slate-300 font-medium" disabled>
+                            <i class="fas fa-chevron-left mr-1"></i> Previous
+                        </button>
+                        <span id="pageInfo" class="px-4 py-2 text-sm text-slate-300 flex items-center"></span>
+                        <button id="nextPage" class="px-4 py-2 rounded-lg text-slate-300 font-medium" disabled>
+                            Next <i class="fas fa-chevron-right ml-1"></i>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <select id="statusFilter" class="px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-blue-500">
-                        <option value="all">All Status</option>
-                        <option value="Success">Success</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Waiting">Waiting</option>
-                    </select>
-                </div>
-                <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 transition">
-                    <i class="fas fa-sync-alt mr-1"></i> Refresh
-                </button>
             </div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800/80 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th><i class="fas fa-hashtag mr-1"></i> ID</th>
-                            <th><i class="fas fa-phone mr-1"></i> Phone</th>
-                            <th><i class="fas fa-envelope mr-1"></i> SMS</th>
-                            <th><i class="fas fa-tag mr-1"></i> Status</th>
-                            <th><i class="fas fa-dollar-sign mr-1"></i> Price</th>
-                            <th><i class="fas fa-calendar mr-1"></i> Date & Time</th>
-                            <th><i class="fas fa-database mr-1"></i> Source</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTableBody">
-                        <tr>
-                            <td colspan="7" class="text-center py-8 text-slate-400 dark:text-slate-500">
-                                <i class="fas fa-spinner fa-pulse mr-2"></i> Loading history...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="pagination" class="px-6 py-4 border-t border-gray-200 dark:border-slate-700 flex justify-between items-center">
-                <span id="totalRecords" class="text-sm text-slate-500 dark:text-slate-400"></span>
-                <div class="flex gap-2">
-                    <button id="prevPage" class="px-3 py-1 rounded-lg bg-gray-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-gray-200 disabled:opacity-50" disabled>
-                        <i class="fas fa-chevron-left"></i> Previous
-                    </button>
-                    <span id="pageInfo" class="px-3 py-1 text-sm text-slate-600 dark:text-slate-300"></span>
-                    <button id="nextPage" class="px-3 py-1 rounded-lg bg-gray-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-gray-200 disabled:opacity-50" disabled>
-                        Next <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         let allHistory = [];
@@ -252,7 +375,7 @@
 
         async function loadHistory() {
             const tbody = document.getElementById('historyTableBody');
-            tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 dark:text-slate-500"><i class="fas fa-spinner fa-pulse mr-2"></i> Loading history...<\/td><\/tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400"><i class="fas fa-spinner fa-pulse mr-2"></i> Loading history...</td></tr>`;
             
             try {
                 const res = await fetch('/api/history');
@@ -292,7 +415,7 @@
                     allHistory = localHistory;
                     applyFilters();
                 } else {
-                    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 dark:text-slate-500"><i class="fas fa-inbox text-3xl mb-2 opacity-50"></i><p>No history found</p><\/td><\/tr>`;
+                    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400"><i class="fas fa-inbox text-3xl mb-2 opacity-50"></i><p>No history found</p></td></tr>`;
                 }
             }
         }
@@ -324,7 +447,7 @@
             const tbody = document.getElementById('historyTableBody');
             
             if (history.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 dark:text-slate-500"><i class="fas fa-inbox text-3xl mb-2 opacity-50"></i><p>No history found</p><\/td><\/tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400"><i class="fas fa-inbox text-3xl mb-2 opacity-50"></i><p>No history found</p></td></tr>`;
                 return;
             }
             
@@ -333,7 +456,7 @@
                                    (item.status === 'Cancelled' ? 'status-cancelled' : 'status-waiting');
                 const statusIcon = item.status === 'Success' ? 'fa-check-circle' : 
                                   (item.status === 'Cancelled' ? 'fa-times-circle' : 'fa-clock');
-                const smsDisplay = item.sms ? `<i class="fas fa-envelope-open-text text-green-500"></i> ${item.sms}` : '-';
+                const smsDisplay = item.sms ? `<i class="fas fa-envelope-open-text text-green-400"></i> ${item.sms}` : '-';
                 
                 let dateDisplay = item.date;
                 if (item.timestamp) {
@@ -346,7 +469,6 @@
                     });
                 }
                 
-                // Format harga seperti di index (tanpa trailing zeros)
                 let priceValue = parseFloat(item.price);
                 let formattedPrice = priceValue.toString();
                 if (formattedPrice === '0') formattedPrice = '0';
@@ -356,15 +478,15 @@
                     : `<span class="text-xs"><span class="source-badge source-local"></span>Local</span>`;
                 
                 return `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition">
-                        <td class="font-mono text-sm">${item.id}<\/td>
-                        <td class="font-mono text-sm">${item.phone || '-'}<\/td>
-                        <td class="text-sm">${smsDisplay}<\/td>
-                        <td><span class="px-2 py-1 rounded-full text-xs font-semibold ${statusClass}"><i class="fas ${statusIcon} mr-1"></i> ${item.status}<\/span><\/td>
-                        <td class="font-semibold text-green-600">$${formattedPrice}<\/td>
-                        <td class="text-sm text-slate-500 dark:text-slate-400">${dateDisplay}<\/td>
-                        <td class="text-sm">${sourceBadge}<\/td>
-                    <\/tr>
+                    <tr>
+                        <td class="font-mono text-sm">${item.id}</td>
+                        <td class="font-mono text-sm">${item.phone || '-'}</td>
+                        <td class="text-sm">${smsDisplay}</td>
+                        <td><span class="px-3 py-1.5 rounded-full text-xs font-semibold ${statusClass}"><i class="fas ${statusIcon} mr-1"></i> ${item.status}</span></td>
+                        <td class="font-semibold text-green-400">$${formattedPrice}</td>
+                        <td class="text-sm text-slate-400">${dateDisplay}</td>
+                        <td class="text-sm">${sourceBadge}</td>
+                    </tr>
                 `;
             }).join('');
         }
@@ -383,17 +505,7 @@
             nextBtn.disabled = currentPage === totalPages || totalPages === 0;
         }
 
-        function initTheme() {
-            const themeToggle = document.getElementById('themeToggle');
-            if (localStorage.theme === 'dark') document.documentElement.classList.add('dark');
-            themeToggle.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
             checkBalance();
             loadHistory();
             
